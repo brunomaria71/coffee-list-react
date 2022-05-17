@@ -4,7 +4,10 @@ import FCoffee from './components/FCoffee';
 
 function App() {
   return (
-    <CCoffee firstName="Maria"/>  // this is adding a prop!
+    <>
+    <CCoffee firstName="Maria"/>  
+    <FCoffee firstName="Maria"/>
+    </>
   );
 }
 

@@ -6,7 +6,6 @@ function FCoffee({ firstName }) {
         <>
             <h1>Coffee List (F)</h1>
             <p> Hello {firstName}</p>
-
         </>
     )
 }
