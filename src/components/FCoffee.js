@@ -3,7 +3,6 @@ import React, {useState, useEffect} from "react";
 
 
 function FCoffee({ firstName }) {
-    const [count, setCount] = useState(0);
     const [coffeeList, setCoffeeList] = useState();
     const [temperature, setTemperature] = useState("iced");
     useEffect(()=>{
@@ -12,16 +11,14 @@ function FCoffee({ firstName }) {
         .then(data => setCoffeeList(data)) // or .then(setCoffeeList)
         .catch(console.error)
     }, [temperature])
-    const handleClick = () => {
-        setCount(count +1);
-    }
+    
     // console.log({coffeeList}) we generally get rid of the console.logs to clean it up. its really just for us to test it out.
     return (
         <>
             <h1>Coffee List (F)</h1>
             <p> Hello {firstName}</p>
-            <p>You clicked the button {count} times.</p>
-        <button onClick={handleClick}>Click me!</button>
+            <button onClick={() => setTemperature('hot')}>HOT</button>
+            <button onClick={() => setTemperature('iced')}>ICED</button>
         {!coffeeList
             ? <h2>Loading...</h2>
             : <>
