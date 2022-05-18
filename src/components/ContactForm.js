@@ -2,37 +2,34 @@ import { useEffect, useState } from "react";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({})
-
-  // const[firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('') // declare that in the future the state will be a string 
   const [terms, setTerms] = useState(false) // initially it will be false then as it changes we can set the terms
- 
- 
- 
   const [validForm, setValidForm] = useState(false)
 
-  // const contactFormInfo = {
-  //   firstName: firstName,
-  //   lastName: lastName,
-  //   terms: terms,
-      // address
-    // zip
-    // state
-    // message
-      // }
-
-//   useEffect(() => {
-//     if(contactFormInfo.firstName && contactFormInfo.lastName && contactFormInfo.terms){
-//     setValidForm(true)
-//   }
-// }, [contactFormInfo.firstName, contactFormInfo.lastName, contactFormInfo.terms])
+  useEffect(() => {
+    if(formData.firstName && formData.lastName && formData.terms){
+    setValidForm(true)
+  }
+}, [formData.firstName, formData.lastName, formData.terms])
 
 
-//   const sendData = (e) => {
-//     e.preventDefault() // right here we're saying do not refresh the page, just do the next line. 
-//     console.log('btn pressed => ContactFormInfo =>>>>>', contactFormInfo)
+  const sendData = (e) => {
+    e.preventDefault() // right here we're saying do not refresh the page, just do the next line. 
 
-//   }
+    fetch (`${process.env.REACT_API_ENDPOINT}/hot`, 
+    {method: 'POST', headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData)
+    })
+    .then(res => res.json())
+    .then(data => console.log('Success!', data))
+    .catch(err => console.error(err))
+  }
+
+const setFormObject = (e) => {
+  setFormData({...formData, [e.target.name]: e.target.value})
+
+}
 
 console.log(formData)
 
@@ -46,7 +43,9 @@ console.log(formData)
           type="text"  
           name="firstName" 
           placeholder="First Name" 
-          onChange={(event) => setFormData({...formData, firstName: event.target.value})} />
+          // onChange={(event) => setFormData({...formData, firstName: event.target.value})} />
+          onChange={(event) => setFormObject(event)} />
+
         </label>
         <br />
         <label>
@@ -54,23 +53,23 @@ console.log(formData)
           <input 
           type="text" 
           name="lastName" 
-          onChange={(event) => setFormData({...formData, lastName: event.target.value})} />
+          onChange={setFormData} />
         </label>
         <br />
         <label>
           Address:
-          <input type="text" name="address" />
+          <input type="text" name="address" onChange={setFormData}/>
         </label>
         <br />
         <label>
           Zip:
-          <input type="text" name="zip" maxLength={5} />
+          <input type="text" name="zip" maxLength={5} onChange={setFormData}/>
         </label>
 
         <br />
         <label>
           State:
-          <select name="state">
+          <select name="state" onChange={setFormData}>
             <option value=""></option>
             <option value="tx">TX</option>
             <option value="ny">NY</option>
@@ -95,9 +94,10 @@ console.log(formData)
         </label>
         <br />
 
-        {/* <button onClick={(e) => sendData(e)} disabled={!validForm}>
-          Submit</button> */}
+        <button onClick={(e) => sendData(e)} disabled={!validForm}>
+          Submit</button>
       </form>
     </>
   )
 };
+
