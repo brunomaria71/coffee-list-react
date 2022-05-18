@@ -3,17 +3,22 @@ import { useState } from "react";
 export default function ContactForm() {
   const[firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('') // declare that in the future the state will be a string 
+  const [terms, setTerms] = useState(false) // initially it will be false then as it changes we can set the terms
 
   const contactFormInfo = {
     firstName: firstName,
     lastName: lastName,
+    terms: terms,
+  }
+
+  const sendData = (e) => {
+    e.preventDefault() // right here we're saying do not refresh the page, just do the next line. 
+    console.log('btn pressed => ContactFormInfo =>>>>>', contactFormInfo)
 
   }
 
-console.log('ContactFormInfo =>>>>>', contactFormInfo)
 
-
-
+  // everything inside of the return has to be html/jsx, we throw JS with curly braces
   return (
     <>
       <form method="post">
@@ -63,11 +68,11 @@ console.log('ContactFormInfo =>>>>>', contactFormInfo)
         <br />
         <label>
         Terms and conditions
-        <input type="checkbox" />
+        <input type="checkbox" onChange={(event) => setTerms(event.target.checked)}/>
         </label>
         <br />
 
-        <button type="submit">Submit</button>
+        <button onClick={(e) => sendData(e)} disabled={contactFormInfo.firstName ? false : true}>Submit</button>
       </form>
     </>
   );
