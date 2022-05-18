@@ -1,22 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ContactForm() {
-  const[firstName, setFirstName] = useState('')
+  const [formData, setFormData] = useState({})
+
+  // const[firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('') // declare that in the future the state will be a string 
   const [terms, setTerms] = useState(false) // initially it will be false then as it changes we can set the terms
+ 
+ 
+ 
+  const [validForm, setValidForm] = useState(false)
 
-  const contactFormInfo = {
-    firstName: firstName,
-    lastName: lastName,
-    terms: terms,
-  }
+  // const contactFormInfo = {
+  //   firstName: firstName,
+  //   lastName: lastName,
+  //   terms: terms,
+      // address
+    // zip
+    // state
+    // message
+      // }
 
-  const sendData = (e) => {
-    e.preventDefault() // right here we're saying do not refresh the page, just do the next line. 
-    console.log('btn pressed => ContactFormInfo =>>>>>', contactFormInfo)
+//   useEffect(() => {
+//     if(contactFormInfo.firstName && contactFormInfo.lastName && contactFormInfo.terms){
+//     setValidForm(true)
+//   }
+// }, [contactFormInfo.firstName, contactFormInfo.lastName, contactFormInfo.terms])
 
-  }
 
+//   const sendData = (e) => {
+//     e.preventDefault() // right here we're saying do not refresh the page, just do the next line. 
+//     console.log('btn pressed => ContactFormInfo =>>>>>', contactFormInfo)
+
+//   }
+
+console.log(formData)
 
   // everything inside of the return has to be html/jsx, we throw JS with curly braces
   return (
@@ -28,7 +46,7 @@ export default function ContactForm() {
           type="text"  
           name="firstName" 
           placeholder="First Name" 
-          onChange={(event) => setFirstName(event.target.value)} />
+          onChange={(event) => setFormData({...formData, firstName: event.target.value})} />
         </label>
         <br />
         <label>
@@ -36,7 +54,7 @@ export default function ContactForm() {
           <input 
           type="text" 
           name="lastName" 
-          onChange={(event) => setLastName(event.target.value)}/>
+          onChange={(event) => setFormData({...formData, lastName: event.target.value})} />
         </label>
         <br />
         <label>
@@ -72,8 +90,14 @@ export default function ContactForm() {
         </label>
         <br />
 
-        <button onClick={(e) => sendData(e)} disabled={contactFormInfo.firstName ? false : true}>Submit</button>
+        <label >message:
+          <textarea name="message"  cols="30" rows="10" />
+        </label>
+        <br />
+
+        {/* <button onClick={(e) => sendData(e)} disabled={!validForm}>
+          Submit</button> */}
       </form>
     </>
-  );
-}
+  )
+};
